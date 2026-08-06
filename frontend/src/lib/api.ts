@@ -1,7 +1,10 @@
 import { demoDashboardData } from "./demo-data";
 import type { DashboardData, LoginResult } from "./types";
 
-const API_BASE_URL = (process.env.NEXT_PUBLIC_API_BASE_URL ?? process.env.NEXT_PUBLIC_API_URL ?? "/api/v1").replace(/\/$/, "");
+const defaultApiBaseUrl = process.env.NODE_ENV === "development"
+  ? "http://localhost:8000/api/v1"
+  : "/api/v1";
+const API_BASE_URL = (process.env.NEXT_PUBLIC_API_BASE_URL ?? process.env.NEXT_PUBLIC_API_URL ?? defaultApiBaseUrl).replace(/\/$/, "");
 const TOKEN_KEY = "isp_access_token";
 const USER_KEY = "isp_user";
 

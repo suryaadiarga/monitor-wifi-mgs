@@ -8,8 +8,8 @@ import { ApiError, authService } from "@/lib/api";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("admin@isp.local");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("admin@wifikampung.net");
+  const [password, setPassword] = useState("12345678");
   const [showPassword, setShowPassword] = useState(false);
   const [remember, setRemember] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -89,8 +89,6 @@ export default function LoginPage() {
                 {loading ? <><span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />Memverifikasi...</> : <>Masuk ke Dashboard<Icon name="chevron" className="h-4 w-4" /></>}
               </button>
             </form>
-
-            <div className="mt-6 rounded-xl bg-slate-50 px-4 py-3 text-xs leading-5 text-slate-500 dark:bg-slate-800/60 dark:text-slate-400"><span className="font-semibold text-slate-700 dark:text-slate-300">Mode demo:</span> jika backend belum aktif, formulir tetap membuka dashboard menggunakan data simulasi.</div>
           </div>
           <p className="mt-6 text-center text-xs text-slate-400">Akses dilindungi enkripsi dan audit aktivitas sistem.</p>
         </section>
