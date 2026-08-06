@@ -1,0 +1,22 @@
+/var/log/isp-manager/*.log /var/log/genieacs/*.log {
+    daily
+    rotate 14
+    compress
+    delaycompress
+    missingok
+    notifempty
+    create 0640 root adm
+    sharedscripts
+}
+
+@@APP_DIR@@/backend/storage/logs/*.log {
+    daily
+    rotate 14
+    compress
+    delaycompress
+    missingok
+    notifempty
+    su www-data www-data
+    create 0640 www-data www-data
+}
+

@@ -1,0 +1,12 @@
+[Unit]
+Description=Daily ISP Manager backup
+
+[Timer]
+OnCalendar=*-*-* 02:30:00
+RandomizedDelaySec=900
+Persistent=true
+Unit=isp-manager-backup.service
+
+[Install]
+WantedBy=timers.target
+

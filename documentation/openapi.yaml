@@ -1,0 +1,167 @@
+openapi: 3.1.0
+info:
+  title: API ISP Terpadu
+  version: 0.1.0
+  description: Kontrak API Tahap 1. Seluruh response memakai envelope success/message/data/meta/errors.
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Lokal
+security:
+  - bearerAuth: []
+paths:
+  /auth/login:
+    post:
+      security: []
+      summary: Login dan membuat token Sanctum
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: { type: string, format: email }
+                password: { type: string, format: password }
+                device_name: { type: string }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+  /auth/me:
+    get:
+      summary: Profil, role, dan permission pengguna aktif
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+  /auth/logout:
+    post:
+      summary: Mencabut token aktif
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+  /dashboard:
+    get:
+      summary: Ringkasan dashboard yang di-cache
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+  /routers:
+    get:
+      summary: Daftar router
+      parameters:
+        - { name: search, in: query, schema: { type: string } }
+        - { name: status, in: query, schema: { type: string, enum: [unknown, online, offline] } }
+        - { name: per_page, in: query, schema: { type: integer, maximum: 100 } }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+    post:
+      summary: Menambah router; secret tidak pernah dikembalikan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/RouterInput' }
+      responses:
+        '201': { $ref: '#/components/responses/Success' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+  /routers/{router}:
+    parameters:
+      - { name: router, in: path, required: true, schema: { type: integer } }
+    get:
+      summary: Detail router
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+    put:
+      summary: Memperbarui router
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/RouterInput' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+    delete:
+      summary: Mengarsipkan router
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+  /routers/{router}/test-connection:
+    post:
+      summary: Menguji koneksi melalui adapter terpilih
+      parameters:
+        - { name: router, in: path, required: true, schema: { type: integer } }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+  /routers/{router}/pppoe-active:
+    get:
+      summary: Daftar sesi PPPoE aktif dari adapter
+      parameters:
+        - { name: router, in: path, required: true, schema: { type: integer } }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+  /customers:
+    get:
+      summary: Daftar pelanggan sesuai scope role/reseller
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+    post:
+      summary: Menambah pelanggan
+      responses:
+        '201': { $ref: '#/components/responses/Success' }
+  /packages:
+    get:
+      summary: Daftar paket internet
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+    post:
+      summary: Menambah paket internet
+      responses:
+        '201': { $ref: '#/components/responses/Success' }
+  /system/health:
+    get:
+      summary: Status database, cache, dan konfigurasi queue
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '503': { $ref: '#/components/responses/Success' }
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Sanctum
+  schemas:
+    Envelope:
+      type: object
+      required: [success, message, data, meta, errors]
+      properties:
+        success: { type: boolean }
+        message: { type: string }
+        data: {}
+        meta: { type: object }
+        errors: {}
+    RouterInput:
+      type: object
+      required: [name, host, api_port, username, password]
+      properties:
+        name: { type: string, maxLength: 150 }
+        host: { type: string, maxLength: 255 }
+        api_port: { type: integer, minimum: 1, maximum: 65535, default: 8728 }
+        api_ssl_port: { type: integer, minimum: 1, maximum: 65535, default: 8729 }
+        use_ssl: { type: boolean }
+        username: { type: string }
+        password: { type: string, format: password, minLength: 8, writeOnly: true }
+        enabled: { type: boolean }
+        maintenance_mode: { type: boolean }
+  responses:
+    Success:
+      description: Operasi berhasil
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Envelope' }
+    ValidationError:
+      description: Input tidak valid
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Envelope' }
+    Unauthenticated:
+      description: Token tidak tersedia atau tidak valid
+    Forbidden:
+      description: Permission tidak mencukupi

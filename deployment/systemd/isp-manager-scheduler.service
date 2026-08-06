@@ -1,0 +1,21 @@
+[Unit]
+Description=ISP Manager Laravel Scheduler
+After=network-online.target mariadb.service redis-server.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=@@APP_DIR@@/backend
+ExecStart=/usr/bin/php artisan schedule:work
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ReadWritePaths=@@APP_DIR@@/backend/storage @@APP_DIR@@/backend/bootstrap/cache
+
+[Install]
+WantedBy=multi-user.target
+

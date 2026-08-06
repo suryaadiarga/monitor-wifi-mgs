@@ -1,0 +1,23 @@
+[Unit]
+Description=ISP Manager Laravel Queue Worker
+After=network-online.target mariadb.service redis-server.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=@@APP_DIR@@/backend
+ExecStart=/usr/bin/php artisan queue:work redis --queue=router-poll,notifications,default --sleep=3 --tries=3 --backoff=30 --timeout=50 --memory=128 --max-jobs=200 --max-time=3600
+ExecReload=/usr/bin/php artisan queue:restart
+Restart=always
+RestartSec=5
+TimeoutStopSec=75
+KillSignal=SIGTERM
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ReadWritePaths=@@APP_DIR@@/backend/storage @@APP_DIR@@/backend/bootstrap/cache
+
+[Install]
+WantedBy=multi-user.target

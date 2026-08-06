@@ -1,0 +1,20 @@
+local.file_match "isp_manager_logs" {
+  path_targets = [
+    { __path__ = "/var/log/isp-manager/*.log", job = "isp-manager" },
+    { __path__ = "/var/log/genieacs/*.log", job = "genieacs" },
+    { __path__ = "/var/log/freeradius/*.log", job = "freeradius" },
+    { __path__ = "/var/log/nginx/*.log", job = "nginx" },
+  ]
+}
+
+loki.source.file "isp_manager_logs" {
+  targets    = local.file_match.isp_manager_logs.targets
+  forward_to = [loki.write.local.receiver]
+}
+
+loki.write "local" {
+  endpoint {
+    url = "http://loki:3100/loki/api/v1/push"
+  }
+}
+

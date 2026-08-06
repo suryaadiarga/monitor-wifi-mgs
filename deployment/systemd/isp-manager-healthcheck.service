@@ -1,0 +1,11 @@
+[Unit]
+Description=ISP Manager local health check
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=root
+EnvironmentFile=-/etc/isp-manager/health.env
+ExecStart=/usr/local/sbin/isp-manager-healthcheck
+NoNewPrivileges=true
+PrivateTmp=true
