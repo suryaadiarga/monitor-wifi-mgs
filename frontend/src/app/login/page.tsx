@@ -8,13 +8,8 @@ import { ApiError, authService } from "@/lib/api";
 
 export default function LoginPage() {
   const router = useRouter();
-<<<<<<< HEAD
   const [email, setEmail] = useState("admin@wifikampung.net");
   const [password, setPassword] = useState("12345678");
-=======
-  const [email, setEmail] = useState("isien dewe cak!!");
-  const [password, setPassword] = useState("passwod e ojok lali!!!!!!!!!!");
->>>>>>> bf5c218 (pindah seluruh controller ke /app\Http\Controllers\[disini])
   const [showPassword, setShowPassword] = useState(false);
   const [remember, setRemember] = useState(true);
   const [loading, setLoading] = useState(false);
