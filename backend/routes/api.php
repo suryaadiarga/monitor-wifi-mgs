@@ -1,21 +1,21 @@
 <?php
 
-use App\Http\Controllers\Api\V1\AlertController;
-use App\Http\Controllers\Api\V1\AuditLogController;
-use App\Http\Controllers\Api\V1\AuthController;
-use App\Http\Controllers\Api\V1\CustomerController;
-use App\Http\Controllers\Api\V1\DashboardController;
-use App\Http\Controllers\Api\V1\GenieAcsController;
-use App\Http\Controllers\Api\V1\HotspotController;
-use App\Http\Controllers\Api\V1\OltController;
-use App\Http\Controllers\Api\V1\PackageController;
-use App\Http\Controllers\Api\V1\PppoeController;
-use App\Http\Controllers\Api\V1\RadiusDiagnosticController;
-use App\Http\Controllers\Api\V1\RouterController;
-use App\Http\Controllers\Api\V1\SystemHealthController;
-use App\Http\Controllers\Api\V1\TelegramController;
-use App\Http\Controllers\Api\V1\UserManagementController;
-use App\Http\Controllers\Api\V1\VpnController;
+use App\Http\Controllers\Api\AlertController;
+use App\Http\Controllers\Api\AuditLogController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CustomerController;
+use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\GenieAcsController;
+use App\Http\Controllers\Api\HotspotController;
+use App\Http\Controllers\Api\OltController;
+use App\Http\Controllers\Api\PackageController;
+use App\Http\Controllers\Api\PppoeController;
+use App\Http\Controllers\Api\RadiusDiagnosticController;
+use App\Http\Controllers\Api\RouterController;
+use App\Http\Controllers\Api\SystemHealthController;
+use App\Http\Controllers\Api\TelegramController;
+use App\Http\Controllers\Api\UserManagementController;
+use App\Http\Controllers\Api\VpnController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function (): void {
