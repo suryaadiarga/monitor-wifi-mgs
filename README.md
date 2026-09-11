@@ -4,9 +4,9 @@ Aplikasi pemantauan jaringan WiFi berbasis web yang dikembangkan untuk **PT Mult
 
 ## Struktur Project
 
-* **backend/** — Laravel API & Database
-* **frontend/** — Next.js Web Interface
-* **monitoring/** — Docker Monitoring Services
+* **Backend** — Laravel API & Database
+* **Frontend** — Next.js Web Interface
+* **Monitoring** — Docker Monitoring Services
 
 ---
 
